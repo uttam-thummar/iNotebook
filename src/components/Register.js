@@ -23,9 +23,9 @@ function Register(props) {
             // save the token and redirect
             localStorage.setItem('authToken', response.authToken);
             history.push("/");
-            props.configAlert(response.message,'success');
+            props.configToast(response.message,'success');
         }else{
-            props.configAlert(response.message,'danger');
+            props.configToast(response.message,'danger');
         }
     }
     return (

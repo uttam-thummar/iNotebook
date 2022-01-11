@@ -22,10 +22,10 @@ function Login(props) {
         if(response.success){
             // save the token and redirect
             localStorage.setItem('authToken', response.authToken);
-            props.configAlert(response.message,'success');
+            props.configToast(response.message,'success');
             history.push("/");
         }else{
-            props.configAlert(response.message,'danger');
+            props.configToast(response.message,'danger');
         }
     }
 

@@ -17,7 +17,7 @@ function NoteItem(props) {
                             <i className='mdi mdi-delete-empty text-danger' onClick={() => {
                                 if (window.confirm("Are you sure you want to delete?")) {
                                     deleteNote(note._id);
-                                    props.configAlert("Note Deleted Successfully.", "success")
+                                    props.configToast("Note Deleted Successfully.", "success")
                                 }
                             }}></i>
                         </div>

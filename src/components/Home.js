@@ -13,7 +13,7 @@ function Home(props) {
     return (
         <>
             <div>
-                <Notes configAlert={props.configAlert}/>
+                <Notes configToast={props.configToast}/>
             </div>
         </>
     )

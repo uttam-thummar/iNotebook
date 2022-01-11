@@ -8,7 +8,7 @@ function AddNote(props) {
         e.preventDefault();
         addNote(NewNote.title, NewNote.description, NewNote.tag);
         setNewNote({title: "", description: "", tag: ""});
-        props.configAlert("New Note Added.", "success");
+        props.configToast("New Note Added.", "success");
     };
     const changingData = (e) => {
         setNewNote({...NewNote, [e.target.name]: e.target.value});

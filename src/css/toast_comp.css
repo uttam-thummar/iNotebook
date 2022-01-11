@@ -1,0 +1,35 @@
+.notify {
+    width: 350px;
+    max-width: 100%;
+    font-size: .875rem;
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255, .85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+    border-radius: .25rem;
+}
+.fade {
+    transition: opacity .15s linear;
+}
+.notify-header {
+    display: flex;
+    align-items: center;
+    padding: .5rem .75rem;
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, .85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+}
+.notify-auto {
+    margin-right: auto !important;
+}
+.notify-body {
+    padding: .75rem;
+    word-wrap: break-word;
+}
+.fs-c {
+	font-size: 16px;
+}

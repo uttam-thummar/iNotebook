@@ -35,11 +35,11 @@ function Notes(props) {
     const updateNote = (e) => {
         editNote(UpdatingNote.id, UpdatingNote.e_title, UpdatingNote.e_description, UpdatingNote.e_tag);
         refClose.current.click();
-        props.configAlert("Note Updated Successfully", "success")
+        props.configToast("Note Updated Successfully", "success")
     }
     return (
         <>
-            <AddNote configAlert={props.configAlert}/>
+            <AddNote configToast={props.configToast}/>
             <button ref={refOpen} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editNoteModal">
             </button>
 
@@ -78,7 +78,7 @@ function Notes(props) {
                 <h2>Your Notes</h2>
                 {Notes.length === 0 && <div className='container'>No notes to display.</div>}
                 {Notes.map((note) => {
-                    return <NoteItem key={note._id} configAlert={props.configAlert} openUpdateModal={openUpdateModal} note={note} />;
+                    return <NoteItem key={note._id} configToast={props.configToast} openUpdateModal={openUpdateModal} note={note} />;
                 })}
             </div>
         </>
