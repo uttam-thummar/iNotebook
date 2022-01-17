@@ -1,6 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 function Navbar(props) {
     let location = useLocation();
@@ -8,13 +7,13 @@ function Navbar(props) {
     const logout = () => {
         localStorage.removeItem('authToken');
         props.configToast("You are Logged out now.", "success")
-        history.push('/login');
+        history.push('/');
     }
     return (
         <>
-            <nav className="navbar sticky navbar-expand-lg navbar-light bg-light pt-0 pb-0">
+            <nav className="navbar sticky navbar-expand-lg navbar-dark bg-dark pt-0 pb-0">
                 <div className="container-fluid">
-                    <Link className="navbar-brand d-flex align-items-center" to="/">
+                    <Link className="navbar-brand d-flex align-items-center" to="/home">
                         <i className='mdi mdi-alpha-i-box' style={{fontSize: "40px"}}></i>Notebook
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,7 +22,7 @@ function Navbar(props) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className={`nav-link ${location.pathname==="/" ? "active" : ""}`} aria-current="page" to="/">Home</Link>
+                                <Link className={`nav-link ${location.pathname==="/home" ? "active" : ""}`} aria-current="page" to="/home">Home</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className={`nav-link ${location.pathname==="/about" ? "active" : ""}`} to="/about">About</Link>

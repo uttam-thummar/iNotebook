@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import About from './components/About';
+import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import NoteState from './context/notes/NoteState';
-// import Alert from './components/Alert';
 import Login from './components/Login';
 import Register from './components/Register';
 import Toast from './components/Toast';
+import Main from './components/Main';
 
 function App() {
   const [ToastConf, setToastConf] = useState(null);
@@ -29,25 +26,21 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Navbar configToast={configToast}/>
           <Toast toast={ToastConf} closeToast={closeToast}/>
-          {/* <Alert alert={AlertConf}/> */}
-          <div className="container">
-            <Switch>
-              <Route exact path="/">
-                <Home configToast={configToast}/>
-              </Route>
-              <Route exact path="/about">
-                <About/>
-              </Route>
-              <Route exact path="/login">
-                <Login configToast={configToast}/>
-              </Route>
-              <Route exact path="/register">
-                <Register configToast={configToast}/>
-              </Route>
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/login"/>
+            </Route>
+            <Route exact path="/login">
+              <Login configToast={configToast}/>
+            </Route>
+            <Route exact path="/register">
+              <Register configToast={configToast}/>
+            </Route>
+            <Route exact path="/home">
+              <Main configToast={configToast}/>
+            </Route>
+          </Switch>
         </Router>
       </NoteState>
     </>

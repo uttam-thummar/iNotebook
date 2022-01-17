@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
 
@@ -47,7 +47,7 @@ function Login(props) {
                 // save the token and redirect
                 localStorage.setItem('authToken', response.authToken);
                 props.configToast(response.message,'success');
-                history.push("/");
+                history.push("/home");
             }else if(response.errors){
                 response.errors.forEach(error => {
                     if(error.param === "email"){
@@ -100,24 +100,30 @@ function Login(props) {
     return (
         <>
             <div className='container mt-2'>
-                <form onSubmit={login} className='box'>
-                    <h2 className='mb-5'>Login</h2>
-                    <div className='wrapper'>
-                        <input type="email" id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" required/>
-                        <div className='label' id='emailLabel'>Email Address</div>
-                        <div className='validation' id='emailValidation'></div>
-                        <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
-                    </div>
-                    <div className='wrapper'>
-                        <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} required/>
-                        <div className='label' id='passwordLabel'>Password</div>
-                        <div className='validation' id='passwordValidation'></div>
-                        <span className='mdi mdi-key-outline icon' id='passwordIcon'></span>
-                    </div>
-                    <div>
-                        <button type="submit" className='btn-login' id='login'>Login</button>
-                    </div>
-                </form>
+                <div className='box'>
+                    <h1 className='mb-5'><span className='mdi mdi-alpha-i-box primary-text'>Notebook</span></h1>
+                    <form onSubmit={login} className='form-box'>
+                        <h5 className="secondary-text">Welcome Back !</h5>
+                        <p className="text-muted mb-4">Login to continue to INotebook.</p>
+                        <div className='wrapper'>
+                            <input type="email" id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" required/>
+                            <div className='label' id='emailLabel'>Email Address</div>
+                            <div className='validation' id='emailValidation'></div>
+                            <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
+                        </div>
+                        <div className='wrapper'>
+                            <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} required/>
+                            <div className='label' id='passwordLabel'>Password</div>
+                            <div className='validation' id='passwordValidation'></div>
+                            <span className='mdi mdi-lock-outline icon' id='passwordIcon'></span>
+                        </div>
+                        <div>
+                            <button type="submit" className='btn-login' id='login'>Login</button>
+                        </div>
+                        <p>Don't have an account? <Link className='button-link' to="/register">Register</Link></p>
+                    </form>
+                    <p style={{fontSize: "16px"}} className='mt-5'>&copy; 2022 <span className='mdi mdi-alpha-i-box primary-text'>Notebook</span>. Crafted with <span style={{color: "#f00"}}>&hearts;</span></p>
+                </div>
             </div>
         </>
     )

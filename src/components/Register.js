@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
 
@@ -59,7 +59,7 @@ function Register(props) {
             if(response.success){
                 // save the token and redirect
                 localStorage.setItem('authToken', response.authToken);
-                history.push("/");
+                history.push("/home");
                 props.configToast(response.message,'success');
             }else if(response.errors){
                 response.errors.forEach(error => {
@@ -125,30 +125,36 @@ function Register(props) {
     return (
         <>
             <div className='container mt-2'>
-                <form onSubmit={register} className='box'>
-                    <h2 className='mb-5'>Register</h2>
-                    <div className='wrapper'>
-                        <input type="text" id="name" name='name' value={RegistrationDetails.name} onChange={collectingDetails} spellCheck="false" required/>
-                        <div className='label' id='nameLabel'>Full Name</div>
-                        <div className='validation' id='nameValidation'></div>
-                        <span className='mdi mdi-account-outline icon' id='nameIcon'></span>
-                    </div>
-                    <div className='wrapper'>
-                        <input type="email" id="email" name='email' value={RegistrationDetails.email} onChange={collectingDetails} spellCheck="false" required/>
-                        <div className='label' id='emailLabel'>Email Address</div>
-                        <div className='validation' id='emailValidation'></div>
-                        <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
-                    </div>
-                    <div className='wrapper'>
-                        <input type="password" id="password" name='password' value={RegistrationDetails.password} onChange={collectingDetails} required/>
-                        <div className='label' id='passwordLabel'>Password</div>
-                        <div className='validation' id='passwordValidation'></div>
-                        <span className='mdi mdi-key-outline icon' id='passwordIcon'></span>
-                    </div>
-                    <div>
-                        <button type="submit" className='btn-login' id='register'>Register</button>
-                    </div>
-                </form>
+                <div className='box'>
+                    <h1 className='mb-5'><span className='mdi mdi-alpha-i-box primary-text'>Notebook</span></h1>
+                    <form onSubmit={register} className='form-box'>
+                        <h5 className="secondary-text">Welcome!</h5>
+                        <p className="text-muted mb-4">Register to continue to INotebook.</p>
+                        <div className='wrapper'>
+                            <input type="text" id="name" name='name' value={RegistrationDetails.name} onChange={collectingDetails} spellCheck="false" required/>
+                            <div className='label' id='nameLabel'>Full Name</div>
+                            <div className='validation' id='nameValidation'></div>
+                            <span className='mdi mdi-account-outline icon' id='nameIcon'></span>
+                        </div>
+                        <div className='wrapper'>
+                            <input type="email" id="email" name='email' value={RegistrationDetails.email} onChange={collectingDetails} spellCheck="false" required/>
+                            <div className='label' id='emailLabel'>Email Address</div>
+                            <div className='validation' id='emailValidation'></div>
+                            <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
+                        </div>
+                        <div className='wrapper'>
+                            <input type="password" id="password" name='password' value={RegistrationDetails.password} onChange={collectingDetails} required/>
+                            <div className='label' id='passwordLabel'>Password</div>
+                            <div className='validation' id='passwordValidation'></div>
+                            <span className='mdi mdi-lock-outline icon' id='passwordIcon'></span>
+                        </div>
+                        <div>
+                            <button type="submit" className='btn-login' id='register'>Register</button>
+                        </div>
+                        <p>Already have an account? <Link className='button-link' to="/">Login</Link></p>
+                    </form>
+                    <p style={{fontSize: "16px"}} className='mt-5'>&copy; 2022 <span className='mdi mdi-alpha-i-box primary-text'>Notebook</span>. Crafted with <span style={{color: "#f00"}}>&hearts;</span></p>
+                </div>
             </div>
         </>
     )
