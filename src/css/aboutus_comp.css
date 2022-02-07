@@ -1,0 +1,18 @@
+.about-us{
+    margin: 100px;
+    font-size: 22px;
+}
+.about-us p{
+    margin-bottom: 3rem;
+    margin-top: 30px;
+}
+.i-icon{
+    text-align: center;
+}
+.i-icon i{
+    font-size: 100px;
+    transition: 1s;
+}
+.i-icon i:hover{
+    color: darkcyan;
+}

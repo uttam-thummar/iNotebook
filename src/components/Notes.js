@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import noteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
-import AddNote from './AddNote';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function Notes(props) {
     const { Notes, fetchNotes, editNote } = useContext(noteContext);
@@ -39,7 +38,6 @@ function Notes(props) {
     }
     return (
         <>
-            <AddNote configToast={props.configToast}/>
             <button ref={refOpen} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editNoteModal">
             </button>
 
@@ -76,10 +74,22 @@ function Notes(props) {
 
             <div className=" row my-4">
                 <h2>Your Notes</h2>
-                {Notes.length === 0 && <div className='container'>No notes to display.</div>}
                 {Notes.map((note) => {
                     return <NoteItem key={note._id} configToast={props.configToast} openUpdateModal={openUpdateModal} note={note} />;
                 })}
+                <div className='col-md-3'>
+                    <Link to="/admin/add-note" className='add-one'>
+                        <div className="card my-3" style={{border: "dotted", height: "80%"}}>
+                            <div className="card-body">
+                                <div className='d-flex justify-content-center h-100'>
+                                    <button className='btn btn-info'>
+                                        <span className='mdi mdi-plus'> Add One</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                </div>
             </div>
         </>
     )

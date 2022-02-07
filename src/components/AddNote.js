@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import noteContext from '../context/notes/noteContext';
 
 function AddNote(props) {
@@ -33,6 +34,7 @@ function AddNote(props) {
                         <input type="text" className="form-control" id="tag" name='tag' value={NewNote.tag} onChange={changingData}/>
                     </div>
                     <button disabled={NewNote.title.length<5 || NewNote.description.length<5} type="button" className="btn btn-primary" onClick={addNewNote}>Add Note</button>
+                    <Link to="/admin/notes" className='btn btn-light view-notes' style={{marginLeft: "30px"}}><span className='mdi mdi-eye'></span> View Notes</Link>
                 </form>
             </div>
         </>

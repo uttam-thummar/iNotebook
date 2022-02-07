@@ -2,8 +2,14 @@ import React, {useState, useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authActionCreators } from '../redux/actionCreators';
 
 function Login(props) {
+    const dispatch = useDispatch();
+    const {setAuthStatus} = bindActionCreators(authActionCreators,dispatch);
+
     const [Credentials, setCredentials] = useState({email: "", password: ""});
     let history = useHistory();
 
@@ -46,8 +52,9 @@ function Login(props) {
             if(response.success){
                 // save the token and redirect
                 localStorage.setItem('authToken', response.authToken);
+                setAuthStatus(true, response.authToken);
                 props.configToast(response.message,'success');
-                history.push("/home");
+                history.push("/admin");
             }else if(response.errors){
                 response.errors.forEach(error => {
                     if(error.param === "email"){
@@ -106,13 +113,13 @@ function Login(props) {
                         <h5 className="secondary-text">Welcome Back !</h5>
                         <p className="text-muted mb-4">Login to continue to INotebook.</p>
                         <div className='wrapper'>
-                            <input type="email" id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" required/>
+                            <input type="email" id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" />
                             <div className='label' id='emailLabel'>Email Address</div>
                             <div className='validation' id='emailValidation'></div>
                             <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
                         </div>
                         <div className='wrapper'>
-                            <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} required/>
+                            <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} />
                             <div className='label' id='passwordLabel'>Password</div>
                             <div className='validation' id='passwordValidation'></div>
                             <span className='mdi mdi-lock-outline icon' id='passwordIcon'></span>

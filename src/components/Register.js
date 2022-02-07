@@ -2,10 +2,16 @@ import React, {useState,useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authActionCreators } from '../redux/actionCreators';
 
 function Register(props) {
     const [RegistrationDetails, setRegistrationDetails] = useState({name: "", email: "", password: ""});
     let history = useHistory();
+
+    const dispatch = useDispatch();
+    const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
 
     const collectingDetails = (e) => {
         setRegistrationDetails({...RegistrationDetails, [e.target.name]: e.target.value});
@@ -59,7 +65,8 @@ function Register(props) {
             if(response.success){
                 // save the token and redirect
                 localStorage.setItem('authToken', response.authToken);
-                history.push("/home");
+                setAuthStatus(true, response.authToken);
+                history.push("/admin");
                 props.configToast(response.message,'success');
             }else if(response.errors){
                 response.errors.forEach(error => {
