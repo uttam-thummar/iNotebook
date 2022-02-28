@@ -11,7 +11,7 @@
 }
 .i-icon i{
     font-size: 100px;
-    transition: 1s;
+    transition: 0.5s;
 }
 .i-icon i:hover{
     color: darkcyan;

@@ -2,21 +2,23 @@ import React from 'react';
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authActionCreators } from '../redux/actionCreators';
+import { authActionCreators, toastActionCreators } from '../redux/actionCreators';
 
-function Navbar(props) {
+function Navbar() {
     let location = useLocation();
     let history = useHistory();
 
     const dispatch = useDispatch();
     const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
 
     const logout = () => {
         localStorage.removeItem('authToken');
         setAuthStatus(false, null);
-        props.configToast("You are Logged out now.", "success")
+        setToastConfiguration("You are Logged out now.", "success")
         history.push('/');
     }
+
     return (
         <>
             <nav className="navbar sticky navbar-expand-lg navbar-dark bg-dark pt-0 pb-0">

@@ -1,14 +1,29 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authActionCreators } from '../redux/actionCreators';
+import { authActionCreators, toastActionCreators } from '../redux/actionCreators';
 
-function Login(props) {
+function Login() {
     const dispatch = useDispatch();
     const {setAuthStatus} = bindActionCreators(authActionCreators,dispatch);
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
+    const emailInputRef = useRef(null);
+
+    useEffect(() => {
+        checkLogin();
+        emailInputRef.current.focus();
+    }, []);
+
+    const checkLogin = () => {
+        const authToken = localStorage.getItem('authToken');
+        if(authToken){
+            setAuthStatus(true,authToken);
+            setToastConfiguration("Your Session is Active.", "info");
+        }
+    }
 
     const [Credentials, setCredentials] = useState({email: "", password: ""});
     let history = useHistory();
@@ -53,7 +68,7 @@ function Login(props) {
                 // save the token and redirect
                 localStorage.setItem('authToken', response.authToken);
                 setAuthStatus(true, response.authToken);
-                props.configToast(response.message,'success');
+                setToastConfiguration(response.message,'success');
                 history.push("/admin");
             }else if(response.errors){
                 response.errors.forEach(error => {
@@ -64,10 +79,10 @@ function Login(props) {
                     }
                 });
             }else{
-                props.configToast(response.message,'danger');
+                setToastConfiguration(response.message,'danger');
             }
         }else{
-            props.configToast("Enter Valid Credentials.",'warning');
+            setToastConfiguration("Enter Valid Credentials.",'warning');
         }
     }
 
@@ -113,13 +128,13 @@ function Login(props) {
                         <h5 className="secondary-text">Welcome Back !</h5>
                         <p className="text-muted mb-4">Login to continue to INotebook.</p>
                         <div className='wrapper'>
-                            <input type="email" id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" />
+                            <input type="email" ref={emailInputRef} id="email" name='email' value={Credentials.email} onChange={collectingCredentials} spellCheck="false" required/>
                             <div className='label' id='emailLabel'>Email Address</div>
                             <div className='validation' id='emailValidation'></div>
                             <span className='mdi mdi-email-outline icon' id='emailIcon'></span>
                         </div>
                         <div className='wrapper'>
-                            <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} />
+                            <input type="password" id="password" name='password' value={Credentials.password} onChange={collectingCredentials} required/>
                             <div className='label' id='passwordLabel'>Password</div>
                             <div className='validation' id='passwordValidation'></div>
                             <span className='mdi mdi-lock-outline icon' id='passwordIcon'></span>

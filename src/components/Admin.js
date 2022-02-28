@@ -5,29 +5,25 @@ import Home from './Home';
 import About from './About';
 import AddNote from './AddNote';
 
-function Admin(props) {
-    const { path, url } = useRouteMatch();
+function Admin() {
+    const { path } = useRouteMatch();
     const history = useHistory();
+
     useEffect(() => {
         if (history.location.pathname === "/admin") {
             history.push("/admin/notes");
         }
-    }, []);
+    });
+
     return (
         <>
             <div>
-                <Navbar configToast={props.configToast} />
+                <Navbar />
                 <div className="container">
                     <Switch>
-                        <Route exact path={`${path}/notes`}>
-                            <Home configToast={props.configToast} />
-                        </Route>
-                        <Route exact path={`${path}/add-note`}>
-                            <AddNote configToast={props.configToast} />
-                        </Route>
-                        <Route exact path={`${path}/about`}>
-                            <About />
-                        </Route>
+                        <Route exact path={`${path}/notes`} component={Home} />
+                        <Route exact path={`${path}/add-note`} component={AddNote} />
+                        <Route exact path={`${path}/about`} component={About} />
                     </Switch>
                 </div>
             </div>

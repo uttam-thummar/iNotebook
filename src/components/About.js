@@ -1,15 +1,24 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { authActionCreators, toastActionCreators } from '../redux/actionCreators';
 import "../css/aboutus_comp.css";
 
 function About() {
     let history = useHistory();
+    const dispatch = useDispatch();
+    const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
+
     useEffect(() => {
         if(!localStorage.getItem('authToken')){
-            history.push('/login');
+            setAuthStatus(false,null);
+            setToastConfiguration("Session Expired.", "warning");
         }
         //eslint-disable-next-line
     }, []);
+
     return (
         <>
             <div className='about-us'>

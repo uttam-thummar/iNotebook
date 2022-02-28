@@ -2,10 +2,17 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import noteContext from '../context/notes/noteContext';
 import NoteItem from './NoteItem';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { toastActionCreators } from '../redux/actionCreators';
 
-function Notes(props) {
+function Notes() {
+    const dispatch = useDispatch();
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
+
     const { Notes, fetchNotes, editNote } = useContext(noteContext);
     let history = useHistory();
+
     useEffect(() => {
         if(localStorage.getItem('authToken')){
             fetchNotes();
@@ -34,8 +41,9 @@ function Notes(props) {
     const updateNote = (e) => {
         editNote(UpdatingNote.id, UpdatingNote.e_title, UpdatingNote.e_description, UpdatingNote.e_tag);
         refClose.current.click();
-        props.configToast("Note Updated Successfully", "success")
+        setToastConfiguration("Note Updated Successfully", "success")
     }
+
     return (
         <>
             <button ref={refOpen} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editNoteModal">
@@ -75,7 +83,7 @@ function Notes(props) {
             <div className=" row my-4">
                 <h2>Your Notes</h2>
                 {Notes.map((note) => {
-                    return <NoteItem key={note._id} configToast={props.configToast} openUpdateModal={openUpdateModal} note={note} />;
+                    return <NoteItem key={note._id} openUpdateModal={openUpdateModal} note={note} />;
                 })}
                 <div className='col-md-3'>
                     <Link to="/admin/add-note" className='add-one'>

@@ -1,17 +1,33 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect, useRef} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import "../css/login_register.css";
 import $ from "jquery";
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { authActionCreators } from '../redux/actionCreators';
+import { authActionCreators, toastActionCreators } from '../redux/actionCreators';
 
-function Register(props) {
+function Register() {
     const [RegistrationDetails, setRegistrationDetails] = useState({name: "", email: "", password: ""});
     let history = useHistory();
 
     const dispatch = useDispatch();
     const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
+
+    const nameInputRef = useRef();
+
+    useEffect(() => {
+        checkLogin();
+        nameInputRef.current.focus();
+    }, []);
+
+    const checkLogin = () => {
+        const authToken = localStorage.getItem('authToken');
+        if(authToken){
+            setAuthStatus(true,authToken);
+            setToastConfiguration("Your Session is Active.", "info");
+        }
+    }
 
     const collectingDetails = (e) => {
         setRegistrationDetails({...RegistrationDetails, [e.target.name]: e.target.value});
@@ -67,7 +83,7 @@ function Register(props) {
                 localStorage.setItem('authToken', response.authToken);
                 setAuthStatus(true, response.authToken);
                 history.push("/admin");
-                props.configToast(response.message,'success');
+                setToastConfiguration(response.message,'success');
             }else if(response.errors){
                 response.errors.forEach(error => {
                     if(error.param === "name"){
@@ -79,10 +95,10 @@ function Register(props) {
                     }
                 });
             }else{
-                props.configToast(response.message,'danger');
+                setToastConfiguration(response.message,'danger');
             }
         }else{
-            props.configToast("Enter Valid Details.",'warning');
+            setToastConfiguration("Enter Valid Details.",'warning');
         }
     }
 
@@ -138,7 +154,7 @@ function Register(props) {
                         <h5 className="secondary-text">Welcome!</h5>
                         <p className="text-muted mb-4">Register to continue to INotebook.</p>
                         <div className='wrapper'>
-                            <input type="text" id="name" name='name' value={RegistrationDetails.name} onChange={collectingDetails} spellCheck="false" required/>
+                            <input type="text" ref={nameInputRef} id="name" name='name' value={RegistrationDetails.name} onChange={collectingDetails} spellCheck="false" required/>
                             <div className='label' id='nameLabel'>Full Name</div>
                             <div className='validation' id='nameValidation'></div>
                             <span className='mdi mdi-account-outline icon' id='nameIcon'></span>

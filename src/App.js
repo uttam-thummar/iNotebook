@@ -14,19 +14,6 @@ const AuthRoute = lazy(() => import("./utils/AuthRoute"));
 const PrivateRoute = lazy(() => import("./utils/PrivateRoute"));
 
 function App() {
-  const [ToastConf, setToastConf] = useState(null);
-  const configToast = (message, variant) => {
-    setToastConf({
-      message: message,
-      variant: variant
-    });
-    setTimeout(() => {
-      setToastConf(null);
-    }, 4000);
-  };
-  const closeToast = () => {
-    setToastConf(null);
-  }
 
   const dispatch = useDispatch();
   const { setAuthStatus } = bindActionCreators(authActionCreators, dispatch);
@@ -42,15 +29,15 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Toast toast={ToastConf} closeToast={closeToast}/>
+          <Toast/>
           <Suspense fallback={<div></div>}>
             <Switch>
               <Route exact path="/">
                 <Redirect to="/login"/>
               </Route>
-              <PrivateRoute path="/admin" component={Admin} configToast={configToast}/>
-              <AuthRoute exact path="/login" component={Login} configToast={configToast}/>
-              <AuthRoute exact path="/register" component={Register} configToast={configToast}/>
+              <PrivateRoute path="/admin" component={Admin}/>
+              <AuthRoute exact path="/login" component={Login}/>
+              <AuthRoute exact path="/register" component={Register}/>
             </Switch>
           </Suspense>
         </Router>

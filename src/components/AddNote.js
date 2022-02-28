@@ -1,20 +1,36 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import noteContext from '../context/notes/noteContext';
+import { authActionCreators, toastActionCreators } from '../redux/actionCreators';
 
-function AddNote(props) {
+function AddNote() {
+    let history = useHistory();
+    const dispatch = useDispatch();
+    const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
+
+    useEffect(() => {
+        if(!localStorage.getItem('authToken')){
+            setAuthStatus(false,null);
+            setToastConfiguration("Session Expired.", "warning");
+        }
+        //eslint-disable-next-line
+    }, []);
+
     const {addNote} = useContext(noteContext);
     const [NewNote, setNewNote] = useState({title: "", description: "", tag: ""});
+
     const addNewNote = (e) => {
         e.preventDefault();
         addNote(NewNote.title, NewNote.description, NewNote.tag);
         setNewNote({title: "", description: "", tag: ""});
-        props.configToast("New Note Added.", "success");
+        setToastConfiguration("New Note Added.", "success");
     };
     const changingData = (e) => {
         setNewNote({...NewNote, [e.target.name]: e.target.value});
     };
-
 
     return (
         <>

@@ -1,9 +1,15 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import noteContext from '../context/notes/noteContext';
+import { toastActionCreators } from '../redux/actionCreators';
 
 function NoteItem(props) {
     const { note, openUpdateModal } = props;
     const { deleteNote } = useContext(noteContext);
+
+    const dispatch = useDispatch();
+    const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
 
     return (
         <>
@@ -17,7 +23,7 @@ function NoteItem(props) {
                             <i className='mdi mdi-delete-empty text-danger' onClick={() => {
                                 if (window.confirm("Are you sure you want to delete?")) {
                                     deleteNote(note._id);
-                                    props.configToast("Note Deleted Successfully.", "success")
+                                    setToastConfiguration("Note Deleted Successfully.", "success")
                                 }
                             }}></i>
                         </div>
