@@ -12,6 +12,8 @@ function Login() {
     const {setToastConfiguration} = bindActionCreators(toastActionCreators, dispatch);
     const emailInputRef = useRef(null);
 
+    const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_LOCAL : process.env.REACT_APP_API_URL_LIVE
+
     useEffect(() => {
         checkLogin();
         emailInputRef.current.focus();
@@ -56,7 +58,7 @@ function Login() {
         }
 
         if(validStatus === true){
-            const apiCall = await fetch("http://localhost:5000/api/auth/login", {
+            const apiCall = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

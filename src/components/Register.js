@@ -9,6 +9,7 @@ import { authActionCreators, toastActionCreators } from '../redux/actionCreators
 function Register() {
     const [RegistrationDetails, setRegistrationDetails] = useState({name: "", email: "", password: ""});
     let history = useHistory();
+    const API_URL = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_API_URL_LOCAL : process.env.REACT_APP_API_URL_LIVE
 
     const dispatch = useDispatch();
     const {setAuthStatus} = bindActionCreators(authActionCreators, dispatch);
@@ -70,7 +71,7 @@ function Register() {
         }
 
         if(validStatus === true){
-            const apiCall = await fetch("http://localhost:5000/api/auth/register", {
+            const apiCall = await fetch(`${API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

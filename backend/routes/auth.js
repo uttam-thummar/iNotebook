@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = "OngoMode$CloudNote";
+const JWT_SECRET = process.env.JWT_SECRET;
 const fetchUser = require('../middleware/fetchUser');
 
 //todo: ROUTE 1 - Create a User using: POST "/api/auth/register". No login required.
